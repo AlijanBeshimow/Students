@@ -1,0 +1,16 @@
+.contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+.row {
+    display: flex;
+    gap: 10px;
+}
+
+.row>* {
+    width: 10em;
+    background-color: antiquewhite;
+}
