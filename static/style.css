@@ -11,6 +11,7 @@
 }
 
 .row>* {
+    border: 1px solid black;
     width: 10em;
     background-color: antiquewhite;
 }

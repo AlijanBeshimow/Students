@@ -6,8 +6,41 @@
     <title>Contacts</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
+<script>
+    function validate(email, formID){
+        if(email.includes("gmail")){
+            alert("Cannot delete this user");
+            return; 
+        }
+        document.getElementById(formID).submit();
+    }
+
+    function validateCreate(){
+        if (document.getElementById("name").value==""){
+            message.innerHTML = "Please fill out the name (name and last name)";
+            document.getElementById("name").style.backgroundColor="pink";
+            
+        }
+        let firstThreeDigits = document.getElementById("phone").value.slice(0,3);
+        if(!(firstThreeDigits === "052" || firstThreeDigits === "054")){
+            message.innerHTML += "<p> Invalid phone not 052 or 054 </p>"
+            document.getElementById("phone").style.backgroundColor="pink";
+
+        }
+        
+        createForm.submit();
+    }
+</script>
 <body>
     <h1>Contacts</h1>
+    <div id="message" class="message"></div>
+    <form action="/create" method="POST" id="createForm">
+        <input type="text" name="name" placeholder="Name" id="name">
+        <input type="text" name="phone" placeholder="Phone" id="phone">
+        <input type="text" name="email" placeholder="Email" id="email">
+        <input type="text" name="address" placeholder="Address" id="address">
+    </form>
+    <button onclick="validateCreate()">Create Contact</button>
     <div class="contacts">
     {% for contact in contacts %}
     <div class="row">
@@ -15,10 +48,13 @@
         <div class="phone">{{ contact.phone }}</div>
         <div class="email">{{ contact.email }}</div>
         <div class="address">{{ contact.address }}</div>
-        <div class="delete"><form action="/delete" method="get">
+        <div class="delete">
+            <form action="/delete" method="GET" id="deleteForm{{ contact.id }}">
             <input type="hidden" name="id" value="{{ contact.id }}">
-            <input type="submit" value="Delete">
-        </form></div>
+        </form>
+        <button onclick="validate('{{ contact.email }}', 'deleteForm{{ contact.id }}')">Delete</button>
+        
+    </div>
     </div>
     {% endfor %}
 </div>
